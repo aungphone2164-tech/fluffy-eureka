@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -21,7 +21,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Generate Project Files
+      - name: Create Gradle Wrapper
+        run: |
+          gradle wrapper --gradle-version 8.4
+
+      - name: Generate Project Structure
         shell: python
         run: |
           import os, textwrap
@@ -294,9 +298,6 @@ jobs:
                   }
               }
           """)
-
-      - name: Setup Gradle Wrapper
-        run: gradle wrapper --gradle-version 8.4
 
       - name: Compile Debug APK
         run: ./gradlew assembleDebug
